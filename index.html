@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Broaster & Burgers</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+<style id="css">
+:root{--bg:#FFFDF6;--card:#fff;--ink:#3B1C0E;--mut:#7A5A47;--red:#E5156F;--pine:#5A2D14;--gold:#FFC21A;--line:#F2DC9A;--grn:#2E9E5B;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);color-scheme:light}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 Nunito,system-ui,sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10}
+body.own::before{background:#4A2411}
+h1,h2,h3,.brand{font-family:"Baloo 2",system-ui,sans-serif;margin:0;line-height:1.1}
+.wrap{max-width:960px;margin:0 auto;padding:0 18px;position:relative;z-index:1}
+.brand{font-weight:800;font-size:1.3rem;padding:16px 0 0;color:var(--pine)}
+.top{display:flex;justify-content:center;padding:14px 0 0}
+.hero{padding:16px 0 20px}
+.hero h1{font-size:clamp(2rem,8vw,3.2rem);font-weight:800}
+.lead{color:var(--mut);margin:10px 0 16px;max-width:38ch}
+.btn,.btn2{display:inline-block;font:800 1rem Nunito,sans-serif;border-radius:14px;padding:12px 20px;text-decoration:none;cursor:pointer;text-align:center;border:0}
+.btn{background:var(--red);color:#fff}
+.btn2{background:var(--bg);color:var(--ink);border:2px solid var(--line);padding:9px 14px;margin:0 6px 6px 0}
+.btn:focus-visible,.btn2:focus-visible,.chip:focus-visible,.card:focus-visible,.sz:focus-visible,.x:focus-visible,input:focus-visible,textarea:focus-visible,.bar button:focus-visible,.qs button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:4px 0 14px;scrollbar-width:none}
+.chip{flex:none;border:2px solid var(--line);background:var(--card);color:var(--ink);font:800 .95rem Nunito,sans-serif;border-radius:99px;padding:8px 16px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--pine);border-color:var(--pine);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(min-width:700px){.grid{grid-template-columns:repeat(4,1fr);gap:16px}}
+.card{all:unset;box-sizing:border-box;cursor:pointer;background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;display:flex;flex-direction:column}
+.card .t{padding:10px 12px 14px}
+.card h3{font-size:1.05rem}
+.card .k{color:var(--mut);font-size:.85rem}
+.card .p{font-weight:800;color:var(--red);margin-top:4px}
+.art{aspect-ratio:1;width:100%;display:grid;place-items:center;font-size:3.2rem;background:#FFE9A8}
+.art img{width:100%;height:100%;object-fit:cover;display:block}
+footer{color:var(--mut);font-size:.85rem;text-align:center;padding:20px 0 90px}
+.cartbar{position:fixed;left:14px;right:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));max-width:520px;margin:0 auto;z-index:15;background:var(--red);color:#fff;border:0;border-radius:16px;padding:14px 18px;font:800 1rem Nunito,sans-serif;box-shadow:0 6px 20px rgba(0,0,0,.28);cursor:pointer}
+.qs{display:inline-flex;align-items:center;gap:10px}
+.qs button{width:38px;height:38px;border-radius:50%;border:2px solid var(--line);background:var(--bg);color:var(--ink);font:800 1.2rem Nunito,sans-serif;cursor:pointer}
+.qs span{min-width:22px;text-align:center;font-weight:800}
+.ln{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.ln>div:first-child{flex:1}
+.ln small{display:block;color:var(--mut)}
+.tot{display:flex;justify-content:space-between;font:800 1.3rem "Baloo 2",sans-serif;padding:14px 0}
+.err{color:var(--red);font-weight:800;margin:0 0 10px}
+.okm{color:var(--grn);font-weight:800;margin:0 0 10px}
+.lnk{background:none;border:0;color:var(--red);font:800 .9rem Nunito,sans-serif;text-decoration:underline;cursor:pointer;padding:4px 0}
+.rowb{display:flex;justify-content:space-between;align-items:center}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:11;background:#4A2411;color:#fff;padding:10px 14px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:.9rem}
+.bar button{font:800 .9rem Nunito,sans-serif;border:0;border-radius:10px;padding:8px 12px;background:#6B3A1F;color:#fff;cursor:pointer}
+.bar .pub{background:var(--gold);color:#222}
+.bar button:disabled{opacity:.45;cursor:default}
+.warn{background:#FFF1CF;color:#5A4200;padding:8px 14px;font-size:.9rem}
+.ov{position:fixed;inset:0;background:rgba(10,20,18,.6);display:none;align-items:flex-end;justify-content:center;z-index:20}
+.ov.on{display:flex}
+.sheet{background:var(--card);width:100%;max-width:520px;max-height:92%;overflow:auto;border-radius:26px 26px 0 0;padding:0 0 calc(18px + env(safe-area-inset-bottom,0px));position:relative;animation:up .25s ease-out}
+@keyframes up{from{transform:translateY(40px);opacity:0}}
+@media(prefers-reduced-motion:reduce){.sheet{animation:none}}
+@media(min-width:700px){.ov{align-items:center}.sheet{border-radius:26px}}
+.sheet .in{padding:14px 20px 0}
+.sheet h2{font-size:1.6rem}
+.sheet .p{font:800 1.4rem "Baloo 2",sans-serif;color:var(--red);margin:2px 0 8px}
+.sheet p{color:var(--mut);margin:0 0 12px}
+.szs{display:flex;gap:8px;margin:6px 0 16px;flex-wrap:wrap}
+.sz{border:2px solid var(--line);background:var(--bg);color:var(--ink);border-radius:12px;min-width:48px;padding:8px 12px;font:800 .95rem Nunito,sans-serif;cursor:pointer}
+.sz[aria-pressed="true"]{border-color:var(--red);background:var(--red);color:#fff}
+.x{position:absolute;top:12px;right:12px;width:40px;height:40px;border-radius:50%;border:0;background:rgba(255,255,255,.9);color:#222;font-size:1.3rem;cursor:pointer;z-index:2}
+.sheet .btn{display:block;width:100%}
+.f label{display:block;font-weight:800;font-size:.9rem;margin:0 0 10px}
+.f input,.f textarea{display:block;width:100%;margin-top:4px;padding:10px 12px;border:2px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink);font:400 1rem Nunito,sans-serif}
+.f small{display:block;color:var(--mut);font-weight:400}
+.del{color:var(--red);border-color:var(--red);margin:10px 0 0;width:100%}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<div class="ov" id="ov" role="dialog" aria-modal="true" aria-label="Detalle">
+  <div class="sheet" id="sheet"></div>
+</div>
+
+<script type="application/json" id="data">
+{"s":{
+  "name":"Broaster & Burgers",
+  "h":"Pollo, hamburguesas y salchipapas al toque",
+  "wa":"+51 942 100 721",
+  "cur":"S/.",
+  "upd":"2026-11-04T13:08:30Z"
+},
+"p":[
+  {"id":1,"n":"Hamburguesa de Carne","c":"Hamburguesas","p":12,"parts":["Simple","Doble","Triple"],"extras":["Queso","Tocino","Huevo","Lechuga","Tomate"],"d":"Carne 100% res a la parrilla, pan artesanal y papas al hilo.","ill":"🍔"},
+  {"id":2,"n":"Hamburguesa de Pollo","c":"Hamburguesas","p":11,"parts":["Simple","Doble","Triple"],"extras":["Queso","Tocino","Huevo","Lechuga","Tomate"],"d":"Filete de pollo empanizado, crujiente y jugoso.","ill":"🍔"},
+  {"id":3,"n":"Pollo Broaster - Pecho","c":"Pollo Broaster","p":13,"parts":["1 pieza","2 piezas","3 piezas"],"extras":["Papas","Ensalada","Ají","Arroz"],"d":"Pecho de pollo broaster, empanizado y crocante.","ill":"🍗"},
+  {"id":4,"n":"Pollo Broaster - Pierna","c":"Pollo Broaster","p":11,"parts":["1 pieza","2 piezas","3 piezas"],"extras":["Papas","Ensalada","Ají","Arroz"],"d":"Pierna de pollo broaster, jugosa por dentro.","ill":"🍗"},
+  {"id":5,"n":"Pollo Broaster - Encuentro","c":"Pollo Broaster","p":12,"parts":["1 pieza","2 piezas","3 piezas"],"extras":["Papas","Ensalada","Ají","Arroz"],"d":"Encuentro de pollo broaster, el favorito de la casa.","ill":"🍗"},
+  {"id":6,"n":"Salchipapa Clásica","c":"Salchipapas","p":8,"parts":["Personal","Mediana","Familiar"],"extras":["Queso","Huevo","Tocino","Cremas"],"d":"Papas fritas con salchicha, cremas y ají al gusto.","ill":"🍟"},
+  {"id":7,"n":"Salchipapa Especial","c":"Salchipapas","p":11,"parts":["Personal","Mediana","Familiar"],"extras":["Queso","Huevo","Tocino","Cremas","Pollo"],"d":"Papas, salchicha, pollo deshilachado, queso y huevo.","ill":"🍟"}
+]}
+</script>
+
+<script id="app">
+const $ = s => document.querySelector(s);
+const esc = t => String(t==null?"":t).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const D = JSON.parse($("#data").textContent), S = D.s, P = D.p;
+
+let cat = "Todo", cur = null, last = null, owner = false, dirty = false;
+let sel = { part:null, extras:[], q:1, m:"", ok:"" };
+let cart = [];
+try { cart = JSON.parse(localStorage.getItem("bb_cart") || "[]"); } catch(e) {}
+const saveCart = () => { try { localStorage.setItem("bb_cart", JSON.stringify(cart)); } catch(e) {} };
+
+const mo = n => (n===""||n==null) ? "Consultar" : S.cur + Number(n).toLocaleString("es");
+const cnt = () => cart.reduce((a,l) => a+l.q, 0);
+const tot = () => cart.reduce((a,l) => a + (l.p===""||l.p==null?0:l.p*l.q), 0);
+
+function art(p){
+  if (p.img) return `<div class="art"><img src="${p.img}" alt="${esc(p.n)}"></div>`;
+  return `<div class="art">${p.ill || "🍽️"}</div>`;
+}
+const money = p => (p.p===""||p.p==null) ? "Consultar" : S.cur + Number(p.p).toLocaleString("es");
+
+function render(){
+  const cats = ["Todo", ...new Set(P.map(p => p.c).filter(Boolean))];
+  const shown = P.filter(p => cat==="Todo" || p.c===cat);
+  document.body.classList.toggle("own", owner);
+  $("#root").innerHTML = `
+    ${owner ? `<div class="bar">
+      <b>Modo dueño</b>
+      <button data-a="add">+ Nuevo</button>
+      <button data-a="set">Ajustes</button>
+      <button class="pub" data-a="save" ${dirty?"":"disabled"}>Guardar</button>
+      <span id="st">${dirty?"Cambios sin guardar":""}</span>
+    </div>` : ""}
+    ${S.wa ? "" : '<div class="warn">Configura tu WhatsApp en Ajustes (Modo dueño) para recibir pedidos.</div>'}
+    <div class="wrap">
+      <div class="top"><div class="brand">🍔 ${esc(S.name)}</div></div>
+      <section class="hero">
+        <h1>${esc(S.h)}</h1>
+        <p class="lead">Elige tus productos, personaliza partes y extras, y envía tu pedido por WhatsApp. ¡Al toque!</p>
+      </section>
+      <section id="catalogo">
+        <div class="chips">
+          ${cats.map(c => `<button class="chip" aria-pressed="${c===cat}" data-c="${esc(c)}">${esc(c)}</button>`).join("")}
+        </div>
+        <div class="grid">
+          ${shown.map(p => `<button class="card" data-id="${p.id}">
+            ${art(p)}
+            <div class="t">
+              <h3>${esc(p.n)}</h3>
+              <div class="k">${esc(p.c)}</div>
+              <div class="p">${money(p)}</div>
+            </div>
+          </button>`).join("")}
+        </div>
+      </section>
+      <footer>
+        Pide por WhatsApp y recoge o pide delivery.
+        ${S.upd ? `<br><small>Actualizado: ${new Date(S.upd).toLocaleString("es",{dateStyle:"medium",timeStyle:"short"})}</small>` : ""}
+      </footer>
+    </div>
+    ${cart.length ? `<button class="cartbar" data-a="cart">🛒 Ver pedido (${cnt()}) · ${mo(tot())}</button>` : ""}
+  `;
+}
+
+$("#root").onclick = e => {
+  const c = e.target.closest("[data-c]");
+  const k = e.target.closest("[data-id]");
+  const a = e.target.closest("[data-a]");
+  if (c) { cat = c.dataset.c; render(); }
+  else if (k) { cur = P.find(p => p.id == k.dataset.id); last = k; sel = { part:null, extras:[], q:1, m:"", ok:"" }; view(); }
+  else if (a) {
+    const x = a.dataset.a;
+    if (x==="add") { cur = { id:Date.now(), n:"Nuevo producto", c:"Hamburguesas", p:"", d:"", parts:[], extras:[], img:"" }; P.unshift(cur); mark(); edit(); }
+    if (x==="set") sets();
+    if (x==="cart") showCart();
+    if (x==="save") save();
+  }
+};
+
+function open(h){ $("#sheet").innerHTML = h; $("#ov").classList.add("on"); const b = $("#close"); if (b) b.focus(); }
+function shut(){ $("#ov").classList.remove("on"); render(); if (last && last.isConnected) last.focus(); }
+function mark(){ dirty = true; const b = document.querySelector('[data-a="save"]'); if (b) b.disabled = false; const s = $("#st"); if (s) s.textContent = "Cambios sin guardar"; }
+
+function view(){
+  const p = cur;
+  open(`
+    <button class="x" aria-label="Cerrar" id="close">✕</button>
+    ${art(p)}
+    <div class="in">
+      <h2>${esc(p.n)}</h2>
+      <div class="p">${money(p)}</div>
+      <p>${esc(p.d)}</p>
+      ${p.parts && p.parts.length ? `
+        <b>Elige parte / tamaño</b>
+        <div class="szs" role="group" aria-label="Parte">
+          ${p.parts.map(s => `<button class="sz" aria-pressed="${s===sel.part}" data-part="${esc(s)}">${esc(s)}</button>`).join("")}
+        </div>` : ""}
+      ${p.extras && p.extras.length ? `
+        <b>Extras (opcional)</b>
+        <div class="szs" role="group" aria-label="Extras">
+          ${p.extras.map(x => `<button class="sz" aria-pressed="${sel.extras.includes(x)}" data-extra="${esc(x)}">+ ${esc(x)}</button>`).join("")}
+        </div>` : ""}
+      <b>Cantidad</b>
+      <div class="qs" style="margin:6px 0 16px">
+        <button data-q="-1" aria-label="Menos">−</button>
+        <span>${sel.q}</span>
+        <button data-q="1" aria-label="Más">+</button>
+      </div>
+      ${sel.m ? `<div class="err" role="alert">${sel.m}</div>` : ""}
+      ${sel.ok ? `<div class="okm" role="status">${sel.ok}</div>` : ""}
+      <button class="btn" data-a="addcart">🛒 Agregar al pedido</button>
+    </div>
+  `);
+}
+
+function add(){
+  const p = cur;
+  if (p.parts && p.parts.length && !sel.part) { sel.m = "Elige una parte o tamaño."; return view(); }
+  const extrasStr = sel.extras.length ? sel.extras.join(", ") : "";
+  const f = cart.find(l => l.id===p.id && l.part===sel.part && l.extrasStr===extrasStr);
+  if (f) f.q = Math.min(99, f.q + sel.q);
+  else cart.push({ id:p.id, n:p.n, part:sel.part||"", extrasStr, q:sel.q, p:p.p });
+  saveCart();
+  sel = { part:null, extras:[], q:1, m:"", ok:"✓ Agregado. Puedes elegir otra parte o extras." };
+  view();
+}
+
+function orderLink(){
+  const wa = String(S.wa).replace(/\D/g, "");
+  const L = cart.map((l,i) =>
+    `${i+1}) ${l.n}\n   ${l.part ? "Parte: "+l.part+"\n   " : ""}${l.extrasStr ? "Extras: "+l.extrasStr+"\n   " : ""}Cantidad: ${l.q}` +
+    (l.p===""||l.p==null ? "" : `\n   Subtotal: ${mo(l.p*l.q)}`)
+  ).join("\n\n");
+  return `https://wa.me/${wa}?text=` + encodeURIComponent(`Hola, quiero hacer este pedido:\n\n${L}\n\nTotal: ${mo(tot())}`);
+}
+
+function showCart(){
+  open(`
+    <button class="x" aria-label="Cerrar" id="close">✕</button>
+    <div class="in" style="padding-top:60px">
+      <h2 style="margin-bottom:6px">Tu pedido</h2>
+      ${cart.length ? cart.map((l,i) => `
+        <div class="ln">
+          <div>
+            <b>${esc(l.n)}</b>
+            <small>${l.part ? esc(l.part)+" · " : ""}${l.extrasStr ? esc(l.extrasStr)+" · " : ""}${l.p===""||l.p==null ? "" : mo(l.p*l.q)}</small>
+          </div>
+          <div class="qs">
+            <button data-ql="${i},-1" aria-label="Menos">−</button>
+            <span>${l.q}</span>
+            <button data-ql="${i},1" aria-label="Más">+</button>
+          </div>
+          <button class="qs" data-rm="${i}" aria-label="Quitar" style="border:0;background:none;font-size:1.2rem;cursor:pointer">🗑</button>
+        </div>`).join("") + `
+        <div class="tot"><span>Total</span><span>${mo(tot())}</span></div>
+        <a class="btn" target="_blank" rel="noopener" href="${orderLink()}">Enviar pedido por WhatsApp</a>
+        <button class="btn2 del" data-a="clear" style="color:inherit;border-color:var(--line)">Vaciar pedido</button>
+      ` : "<p>Tu pedido está vacío.</p>"}
+    </div>
+  `);
+}
+
+function edit(){
+  const p = cur;
+  open(`
+    <button class="x" aria-label="Cerrar" id="close">✕</button>
+    ${art(p)}
+    <div class="in f">
+      <label class="btn2">📷 ${p.img?"Cambiar foto":"Subir foto"}<input type="file" accept="image/*" hidden id="file"></label>
+      ${p.img ? '<button class="btn2" data-a="noimg">Quitar foto</button>' : ""}
+      <label>Nombre<input data-f="n" value="${esc(p.n)}"></label>
+      <label>Categoría<input data-f="c" list="cl" value="${esc(p.c)}"></label>
+      <datalist id="cl"><option value="Hamburguesas"><option value="Pollo Broaster"><option value="Salchipapas"></datalist>
+      <label>Precio (${esc(S.cur)})<input data-f="p" type="number" inputmode="decimal" min="0" value="${p.p}"></label>
+      <label>Descripción<textarea data-f="d" rows="3">${esc(p.d)}</textarea></label>
+      <label>Partes / tamaños<input data-f="parts" value="${esc((p.parts||[]).join(", "))}"><small>Separa con comas. Ej: 1 pieza, 2 piezas, 3 piezas</small></label>
+      <label>Extras<input data-f="extras" value="${esc((p.extras||[]).join(", "))}"><small>Separa con comas. Ej: Queso, Tocino, Huevo</small></label>
+      <button class="btn" data-a="done">Listo</button>
+      <button class="btn2 del" data-a="del">Eliminar producto</button>
+    </div>
+  `);
+}
+
+function sets(){
+  open(`
+    <button class="x" aria-label="Cerrar" id="close">✕</button>
+    <div class="in f" style="padding-top:60px">
+      <h2 style="margin-bottom:14px">Ajustes</h2>
+      <label>Nombre del negocio<input data-st="name" value="${esc(S.name)}"></label>
+      <label>Frase de portada<input data-st="h" value="${esc(S.h)}"></label>
+      <label>WhatsApp para pedidos<input data-st="wa" type="tel" inputmode="numeric" value="${esc(S.wa)}"><small>Con código de país, solo números. Ej: 51942100721</small></label>
+      <label>Símbolo de moneda<input data-st="cur" value="${esc(S.cur)}"></label>
+      <button class="btn" data-a="done">Listo</button>
+    </div>
+  `);
+}
+
+const sh = $("#sheet");
+sh.onclick = e => {
+  const t = e.target;
+  const a = t.closest("[data-a]");
+  const part = t.closest("[data-part]");
+  const extra = t.closest("[data-extra]");
+  const q = t.closest("[data-q]");
+  const ql = t.closest("[data-ql]");
+  const rm = t.closest("[data-rm]");
+
+  if (t.closest("#close")) return shut();
+
+  if (part) { sel.part = part.dataset.part; sel.m = sel.ok = ""; view(); }
+  if (extra) {
+    const x = extra.dataset.extra;
+    const i = sel.extras.indexOf(x);
+    if (i < 0) sel.extras.push(x); else sel.extras.splice(i,1);
+    sel.m = sel.ok = ""; view();
+  }
+  if (q) { sel.q = Math.min(99, Math.max(1, sel.q + Number(q.dataset.q))); view(); }
+  if (ql) {
+    const [i,d] = ql.dataset.ql.split(",").map(Number);
+    cart[i].q = Math.min(99, Math.max(1, cart[i].q + d));
+    saveCart(); showCart();
+  }
+  if (rm) { cart.splice(Number(rm.dataset.rm), 1); saveCart(); showCart(); }
+
+  if (a) {
+    const x = a.dataset.a;
+    if (x==="addcart") add();
+    if (x==="cart") showCart();
+    if (x==="clear") { cart = []; saveCart(); showCart(); }
+    if (x==="edit") edit();
+    if (x==="done") shut();
+    if (x==="noimg") { cur.img = ""; mark(); edit(); }
+    if (x==="del") {
+      if (a.dataset.sure) { P.splice(P.indexOf(cur),1); mark(); shut(); }
+      else { a.dataset.sure = 1; a.textContent = "¿Seguro? Toca otra vez"; }
+    }
+  }
+};
+
+sh.oninput = e => {
+  const t = e.target;
+  const f = t.dataset.f, st = t.dataset.st;
+  if (f) {
+    if (f==="p") cur[f] = t.value==="" ? "" : Number(t.value);
+    else if (f==="parts" || f==="extras") cur[f] = t.value.split(",").map(x=>x.trim()).filter(Boolean);
+    else cur[f] = t.value;
+    mark();
+  }
+  if (st) { S[st] = t.value.trim(); mark(); }
+};
+
+sh.onchange = async e => {
+  if (e.target.id==="file" && e.target.files[0]) {
+    cur.img = await shrink(e.target.files[0]);
+    mark(); edit();
+  }
+};
+
+function shrink(f){
+  return new Promise(r => {
+    const i = new Image(), u = URL.createObjectURL(f);
+    i.onload = () => {
+      const k = Math.min(1, 720/Math.max(i.width, i.height));
+      const c = document.createElement("canvas");
+      c.width = i.width*k; c.height = i.height*k;
+      c.getContext("2d").drawImage(i, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(u);
+      r(c.toDataURL("image/jpeg", 0.82));
+    };
+    i.src = u;
+  });
+}
+
+function save(){
+  const out = JSON.stringify({ s:S, p:P }, null, 2);
+  const blob = new Blob([out], { type:"application/json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "menu.json";
+  a.click();
+  dirty = false;
+  const b = document.querySelector('[data-a="save"]');
+  if (b) b.disabled = true;
+  const st = $("#st");
+  if (st) st.textContent = "✓ Guardado";
+}
+
+// Atajo de teclado: Shift+O activa modo dueño
+document.addEventListener("keydown", e => {
+  if (e.shiftKey && e.key === "O") { owner = !owner; render(); }
+});
+
+render();
+</script>
+</body>
+</html>
